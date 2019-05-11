@@ -1,0 +1,75 @@
+#+TITLE: Machine Learning
+* Lecture 1
+www.image-net.com
+
+** example how to take note in org-mode
+   
+- for equations in text, $\sum_{1}^C{n}$
+
+- for centered without numered
+\[ (I_1,I_2) \]
+
+- for numberred and centered 
+
+\begin{equation}
+f=\frac{1}{2}
+\end{equation}
+
+- multilines 
+\begin{equation}
+\begin{aligned}
+f_1 = 2\\
+f_2 = 3
+\end{aligned}
+\end{equation}
+
+- =subscript and superscript= $I_{12} ^{p23}$
+- =fraction= $\frac{1}{2}$
+- =integration= $\int_{1}^{x} dx = \iint_\omega f(x,y)dxdy$
+
+* Lecture 2: Image Classification
+
+Distance Metric to compare images
+
+L1 distnce (Manhattan Distance): $\sum_p |I_1^p-I_2^p|$ 
+ 
+** Nearest Neighbor classfier:
+
+Q: With N examples,how fast are training and predicting? 
+
+A: Train O(1)
+   Presict O(N)
+** K-Nearest Neighbors
+
+take majority Vote form K closest points:
+
+L2 Distance (Euclidean): $\sqrt{\sum_p(I_1^p-I_2^p)^2}$
+
+Hyperparameters: k, distance
+
+k-nearest Neighbor on images never used.
+
+- Very slow at test time
+
+- Distance metircs on pixels are not informative
+
+- Curse of dimensionality
+
+CIFAR 10 Parametric Approach
+
+In KNN, there's no weight on each input while in parametric approach, there are parameters or weights.
+
+f(x,W): x : input W: weight/ bias element
+
+For example, f(x,W) = Wx
+
+Linear Classifier: f(x,W) = Wx + b
+
+These functions are score functions.
+* Lecture 3: Loss function
+
+To define the badness (how bad) of the result.
+
+The loss function quantifies our unhappiness with predictions on the training
+set.
+

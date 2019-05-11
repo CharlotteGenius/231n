@@ -1,0 +1,119 @@
+% Created 2019-03-11 Mon 12:42
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{轩辰 向}
+\date{\today}
+\title{Machine Learning}
+\hypersetup{
+ pdfauthor={轩辰 向},
+ pdftitle={Machine Learning},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 26.1 (Org mode 9.2.2)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{Lecture 1}
+\label{sec:org79c8d85}
+www.image-net.com
+
+\subsection{example how to take note in org-mode}
+\label{sec:orged1d3c7}
+
+\begin{itemize}
+\item for equations in text, \(\sum_{1}^C{n}\)
+
+\item for centered without numered
+\end{itemize}
+\[ (I_1,I_2) \]
+
+\begin{itemize}
+\item for numberred and centered
+\end{itemize}
+
+\begin{equation}
+f=\frac{1}{2}
+\end{equation}
+
+\begin{itemize}
+\item multilines
+\end{itemize}
+\begin{equation}
+\begin{aligned}
+f_1 = 2\\
+f_2 = 3
+\end{aligned}
+\end{equation}
+
+\begin{itemize}
+\item \texttt{subscript and superscript} \(I_{12} ^{p23}\)
+\item \texttt{fraction} \(\frac{1}{2}\)
+\item \texttt{integration} \(\int_{1}^{x} dx = \iint_\omega f(x,y)dxdy\)
+\end{itemize}
+
+\section{Lecture 2: Image Classification}
+\label{sec:orgac2b34e}
+
+Distance Metric to compare images
+
+L1 distnce (Manhattan Distance): \(\sum_p |I_1^p-I_2^p|\) 
+
+\subsection{Nearest Neighbor classfier:}
+\label{sec:org224f01a}
+
+Q: With N examples,how fast are training and predicting? 
+
+A: Train O(1)
+   Presict O(N)
+\subsection{K-Nearest Neighbors}
+\label{sec:org2050975}
+
+take majority Vote form K closest points:
+
+Hyperparameters: k, distance
+
+k-nearest Neighbor on images never used.
+
+\begin{itemize}
+\item Very slow at test time
+
+\item Distance metircs on pixels are not informative
+
+\item Curse of dimensionality
+\end{itemize}
+
+CIFAR 10 Parametric Approach
+
+In KNN, there's no weight on each input while in parametric approach, there are parameters or weights.
+
+f(x,W): x : input W: weight/ bias element
+
+For example, f(x,W) = Wx
+
+Linear Classifier: f(x,W) = Wx + b
+
+These functions are score functions.
+\section{Lecture 3: Loss function}
+\label{sec:org64aa6c0}
+
+To define the badness (how bad) of the result.
+
+The loss function quantifies our unhappiness with predictions on the training
+set.
+\end{document}
