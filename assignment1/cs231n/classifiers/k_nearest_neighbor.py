@@ -137,6 +137,7 @@ class KNearestNeighbor(object):
     #       and two broadcast sums.                                         #
     #########################################################################
     dists = -2*np.dot(X, self.X_train.T) + np.sum(self.X_train**2, axis=1) + np.sum(X**2, axis=1)[:, np.newaxis]
+    '''returns a number'''
     #########################################################################
     #                         END OF YOUR CODE                              #
     #########################################################################
@@ -158,12 +159,6 @@ class KNearestNeighbor(object):
     num_test = dists.shape[0]
     y_pred = np.zeros(num_test)
     for i in range(num_test):
-        index = np.argsort(dists[i,:])
-        closest_y = []
-        for ki in range(k):
-            closest_label = self.y_train[index[ki]]
-            closest_y.append(closest_label)
-        y_pred[i] = max(set(closest_y),key=closest_y.count)
       # A list of length k storing the labels of the k nearest neighbors to
       # the ith test point.
       #########################################################################
@@ -173,6 +168,16 @@ class KNearestNeighbor(object):
       # neighbors. Store these labels in closest_y.                           #
       # Hint: Look up the function numpy.argsort.                             #
       #########################################################################
+        index = np.argsort(dists[i,:])
+        '''
+        This gives a index list of sorted dists
+        e.g. x = [3,1,2]; np.argsort(x) = [1,2,0] meaning index 1 corresponding to the smallest number
+        '''
+        closest_y = []
+        for ki in range(k):
+            closest_label = self.y_train[index[ki]]
+            closest_y.append(closest_label)
+        y_pred[i] = max(set(closest_y),key=closest_y.count)
       #########################################################################
       # TODO:                                                                 #
       # Now that you have found the labels of the k nearest neighbors, you    #
