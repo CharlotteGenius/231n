@@ -89,10 +89,24 @@ def svm_loss_vectorized(W, X, y, reg):
   #############################################################################
   scores = W.dot(X)
   correct_class_score = scores[y]
-  margin = np.max(0, scores - scores[y] + 1)
+  margin = np.maximum(0, scores - scores[y] + 1)
+    # np.maximum(0, a) will compare every element in a with 0 and keep the larger element.
   margin[y] = 0
-  loss = np.sum(np.sum(margins), 
-
+    # the correct category scores 0, because we don't plus it in the loss
+  loss = np.sum(margin)
+  loss = np.sum()
   
 
   return loss, dW
+
+
+
+
+
+
+
+
+
+
+
+
