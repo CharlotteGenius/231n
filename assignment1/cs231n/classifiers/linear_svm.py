@@ -44,8 +44,8 @@ def svm_loss_naive(W, X, y, reg):
 
   # Right now the loss is a sum over all training examples, but we want it
   # to be an average instead so we divide by num_train.
-  loss /= num_train
-  dW /= num_train
+  loss /= N
+  dW /= N
 
   # Add regularization to the loss.
   loss += reg * np.sum(W * W)
@@ -87,25 +87,24 @@ def svm_loss_vectorized(W, X, y, reg):
   # to reuse some of the intermediate values that you used to compute the     #
   # loss.                                                                     #
   #############################################################################
-  scores = W.dot(X)
-  correct_class_score = scores[y]
-  margin = np.maximum(0, scores - scores[y] + 1)
-    # np.maximum(0, a) will compare every element in a with 0 and keep the larger element.
-  margin[y] = 0
+  C = W.shape[1]
+  N = X.shape[0]
+  scores = X.dot(W)
+  correct_class_score = scores[np.arange(N), y].reshape(N,1)
+  margin = np.maximum(0, scores - correct_class_score + 1)
+    # np.maximum(0, x) will compare every element with 0 and keep the larger element.
+  margin[np.arange(N), y] = 0
     # the correct category scores 0, because we don't plus it in the loss
-  loss = np.sum(margin)
-  loss = np.sum()
+  loss = margin.sum()
+  loss /= N
+  loss += reg*sum(W*W)
+
+  # Gradient of loss
   
 
+
+
   return loss, dW
-
-
-
-
-
-
-
-
 
 
 
