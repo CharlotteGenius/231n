@@ -38,7 +38,7 @@ def svm_loss_naive(W, X, y, reg):
         # Because L_i = sum(max(0, margin),j!=yi)
         dW[:,   j] += X[i]
         dW[:,y[i]] -= X[i]
-        # dmargin/dW = (dscores[j] - dscores[y[i]])/dW = (XiWj - XiWyi)/dW
+        # dmargin/dW = (dscores[j] - dscores[y[i]])/dW = d(XiWj - XiWyi)/dW
         # dmargin/dWj = Xi
         # dmargin/dWyi = -Xi
 
