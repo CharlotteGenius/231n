@@ -100,9 +100,12 @@ def svm_loss_vectorized(W, X, y, reg):
   loss += reg*sum(W*W)
 
   # Gradient of loss
-  
-
-
+  m = np.zeros(margin.shape)
+  m[margin>0]=1
+  count = np.sum(m, axis=1)
+  m[np.arange[N],y]=-count
+  dW = X.T.dot(m)
+  dW = 1/N * dW + 2*reg*W
 
   return loss, dW
 
