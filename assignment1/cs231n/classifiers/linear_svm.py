@@ -67,7 +67,8 @@ def svm_loss_vectorized(W, X, y, reg):
   """
   Structured SVM loss function, vectorized implementation.
 
-  Inputs and outputs are the same as svm_loss_naive.
+  Inputs and outputs are the same as 
+  .
   """
   loss = 0.0
   dW = np.zeros(W.shape) # initialize the gradient as zero
