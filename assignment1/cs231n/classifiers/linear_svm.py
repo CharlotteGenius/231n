@@ -91,22 +91,23 @@ def svm_loss_vectorized(W, X, y, reg):
   C = W.shape[1]
   N = X.shape[0]
   scores = X.dot(W)
-  correct_class_score = scores[np.arange(N), y].reshape(N,1)
+  correct_class_score = scores[np.arange(N), y][:, np.newaxis]
   margin = np.maximum(0, scores - correct_class_score + 1)
     # np.maximum(0, x) will compare every element with 0 and keep the larger element.
   margin[np.arange(N), y] = 0
     # the correct category scores 0, because we don't plus it in the loss
   loss = margin.sum()
   loss /= N
-  loss += reg*sum(W*W)
+  loss += reg*np.sum(W*W)
 
   # Gradient of loss
   m = np.zeros(margin.shape)
   m[margin>0]=1
   count = np.sum(m, axis=1)
-  m[np.arange[N],y]=-count
-  dW = X.T.dot(m)
-  dW = 1/N * dW + 2*reg*W
+  m[np.arange(N),y]=-count
+  dW = (X.T).dot(m)
+  dW /= dW
+  dW += reg*2*W
 
   return loss, dW
 

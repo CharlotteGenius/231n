@@ -36,10 +36,8 @@ class LinearClassifier(object):
 
     # Run stochastic gradient descent to optimize W
     loss_history = []
+    indices = np.random.choice(np.arange(num_train), size = 200)
     for it in range(num_iters):
-      X_batch = None
-      y_batch = None
-
       #########################################################################
       # TODO:                                                                 #
       # Sample batch_size elements from the training data and their           #
@@ -51,7 +49,12 @@ class LinearClassifier(object):
       # Hint: Use np.random.choice to generate indices. Sampling with         #
       # replacement is faster than sampling without replacement.              #
       #########################################################################
-      pass
+      x_batch = X[indices]
+      y_batch = y[indices]
+      
+      indices_choice = np.delete(np.arange(num_train), indices)
+      indices = np.random.choice(indices_choice, size = 200)
+      
       #########################################################################
       #                       END OF YOUR CODE                                #
       #########################################################################
@@ -65,7 +68,7 @@ class LinearClassifier(object):
       # TODO:                                                                 #
       # Update the weights using the gradient and the learning rate.          #
       #########################################################################
-      pass
+      W += - learning_rate * grad
       #########################################################################
       #                       END OF YOUR CODE                                #
       #########################################################################
@@ -94,7 +97,7 @@ class LinearClassifier(object):
     # TODO:                                                                   #
     # Implement this method. Store the predicted labels in y_pred.            #
     ###########################################################################
-    pass
+    y_pred = np.max(X.dot(W), axis = 1)
     ###########################################################################
     #                           END OF YOUR CODE                              #
     ###########################################################################
