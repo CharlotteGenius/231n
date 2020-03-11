@@ -16,7 +16,7 @@ W = np.array([[1,2,3,1],
               [2,1,1,2],
               [1,2,1,1]])
 
-y = np.array([1,0,3,2,0])
+y = np.array([1,0,3,2,0,5,6,4,7,8])
 
 N = X.shape[0]
 D = X.shape[1]
@@ -55,40 +55,42 @@ dW = np.zeros(W.shape)
 # without loop
 # =============================================================================
 
-score = X.dot(W)
-print("score:\n",score)
-
-sy = score[np.arange(N), y][:, np.newaxis]
-
-print('correct score:\n', sy)
-
-margin = score-sy+1
-print('margin:\n', margin)
-
-margin = np.maximum(0, margin)
-print('margin positive:\n', margin)
-
-margin[np.arange(N), y] = 0
-print('margin correct is zero:\n', margin)
-
-loss = margin.sum()
-print('loss:\n', loss)
-
-
-
-
-# test: code by jariasf
-margin[margin > 0] = 1
-print('1s margin:\n', margin)
-
-valid_margin_count = margin.sum(axis=1)
-print('count:\n',valid_margin_count)
-
-# Subtract in correct class (-sy)
-margin[np.arange(N),y ] = -valid_margin_count
-print('margin:\n',margin)
-
-dW = (X.T).dot(margin)
+# =============================================================================
+# score = X.dot(W)
+# print("score:\n",score)
+# 
+# sy = score[np.arange(N), y][:, np.newaxis]
+# 
+# print('correct score:\n', sy)
+# 
+# margin = score-sy+1
+# print('margin:\n', margin)
+# 
+# margin = np.maximum(0, margin)
+# print('margin positive:\n', margin)
+# 
+# margin[np.arange(N), y] = 0
+# print('margin correct is zero:\n', margin)
+# 
+# loss = margin.sum()
+# print('loss:\n', loss)
+# 
+# 
+# 
+# 
+# # test: code by jariasf
+# margin[margin > 0] = 1
+# print('1s margin:\n', margin)
+# 
+# valid_margin_count = margin.sum(axis=1)
+# print('count:\n',valid_margin_count)
+# 
+# # Subtract in correct class (-sy)
+# margin[np.arange(N),y ] = -valid_margin_count
+# print('margin:\n',margin)
+# 
+# dW = (X.T).dot(margin)
+# =============================================================================
 
 # =============================================================================
 # # test: code by bruceoutdoors
@@ -110,8 +112,22 @@ dW = (X.T).dot(margin)
 # print('dW:\n', dW)
 # =============================================================================
 
+#y_pred = np.max(X.dot(W), axis = 1)
+#y_pred = np.argmax(X.dot(W), axis = 1)
 
-
+indices = np.random.choice(np.arange(10), size = 2)
+indices_choice = np.arange(10)
+for it in range(8):
+    
+    y_batch = y[indices]
+    print('in',indices)
+    indices_choice = np.setdiff1d(indices_choice, indices)
+    if len(indices_choice) < 1:
+        break
+    print('',indices_choice)
+    indices = np.random.choice(indices_choice, size = 2)
+    
+    
 
 
 

@@ -106,7 +106,7 @@ def svm_loss_vectorized(W, X, y, reg):
   count = np.sum(m, axis=1)
   m[np.arange(N),y]=-count
   dW = (X.T).dot(m)
-  dW /= dW
+  dW /= N
   dW += reg*2*W
 
   return loss, dW
