@@ -26,25 +26,6 @@ C = W.shape[1]
 loss = 0.0
 dW = np.zeros_like(W)
 
-# =============================================================================
-# for i in range(N):
-#     scores = X[i].dot(W)
-#     correct_class_score = scores[y[i]]
-#     
-#     correct_part = np.exp(correct_class_score)
-#     print(correct_part)
-#     sum_part = np.sum(np.exp(scores))
-#     print(sum_part)
-#     for j in range(C):
-#         dW[:, j] += np.exp(scores[j])*X[i]
-#     
-#     margin = -np.log(correct_part/sum_part) # margin: Li
-#     loss += margin
-#     
-#     dW /= sum_part
-#     dW[:, y[i]] -= X[i]
-# print(loss, dW)
-# =============================================================================
 
 # =============================================================================
 # for i in range(N):
@@ -65,7 +46,7 @@ for i in range(N):
     scores = X[i].dot(W)
     correct_class_score = scores[y[i]]
     correct_part = np.exp(correct_class_score)
-    sum_part = np.sum(scores)
+    sum_part = np.sum(np.exp(scores))
     print(correct_part,sum_part,correct_part/sum_part)
     loss += np.log(correct_part/sum_part)
     print(loss)
@@ -73,3 +54,23 @@ for i in range(N):
     dW[:, y[i]] -= X[i]
     for j in range(C):
         dW[:, j] += (1/sum_part)*np.exp(scores[j])*X[i]
+
+# =============================================================================
+# scores = X.dot(W)
+# correct_class_score = scores[np.arange(N), y]
+# correct_part = np.exp(correct_class_score)[:, np.newaxis]
+# 
+# sum_part = np.sum(np.exp(scores), axis = 1)[:, np.newaxis]
+# loss = np.sum(-np.log(correct_part/sum_part))
+# print(correct_part,sum_part)
+# 
+# m =np.zeros_like(scores)
+# m[np.arange(N), y] = -1
+# m += (1/sum_part)*np.exp(scores)
+# print(m)
+# 
+# dW = (X.T).dot(m)
+# =============================================================================
+
+
+    
