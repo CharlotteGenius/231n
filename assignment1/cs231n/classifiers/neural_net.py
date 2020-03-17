@@ -75,7 +75,9 @@ class TwoLayerNet(object):
     # Store the result in the scores variable, which should be an array of      #
     # shape (N, C).                                                             #
     #############################################################################
-    pass
+    h1 = X.dot(W1)+b1
+    scores = np.maximum(h1,0).dot(W2)+b2
+    
     #############################################################################
     #                              END OF YOUR CODE                             #
     #############################################################################
@@ -92,7 +94,12 @@ class TwoLayerNet(object):
     # in the variable loss, which should be a scalar. Use the Softmax           #
     # classifier loss.                                                          #
     #############################################################################
-    pass
+    correct_class_score = scores[np.arange(N), y]
+    correct_part = np.exp(correct_class_score)[:, np.newaxis]
+    sum_part = np.sum(np.exp(scores), axis = 1)[:, np.newaxis]
+    loss = np.sum(-np.log(correct_part/sum_part))
+    loss /= N
+    loss += reg * np.sum(W * W)
     #############################################################################
     #                              END OF YOUR CODE                             #
     #############################################################################
@@ -104,7 +111,15 @@ class TwoLayerNet(object):
     # and biases. Store the results in the grads dictionary. For example,       #
     # grads['W1'] should store the gradient on W1, and be a matrix of same size #
     #############################################################################
-    pass
+    
+    dW1 = np.maximum(X, 0).dot(W2)
+    dW2 = np.maximum
+    m = np.zeros_like(scores)
+    m[np.arange(N), y] = -1
+    m += (1/sum_part)*np.exp(scores)
+    dW = (X.T).dot(m)
+    dW /= N
+    dW += 2*reg*W
     #############################################################################
     #                              END OF YOUR CODE                             #
     #############################################################################
