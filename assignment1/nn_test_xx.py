@@ -33,7 +33,7 @@ W2 = np.array([[1,-1.8],
 # H,C = W2.shape
 # H = 4, C = 2
 
-y = np.array([1,0,0,1,0])
+y = np.array([1,0,0,1,0,1])
 
 N = X.shape[0]
 D = X.shape[1]
@@ -41,23 +41,16 @@ H = W1.shape[1]
 C = W2.shape[1]
 loss = 0.0
 
-h1 = X.dot(W1) + b1
-scores = np.maximum(h1, 0).dot(W2) + b2
+h1 = X.dot(W1) + b1 # shape(6, 4)
+scores = np.maximum(h1, 0).dot(W2) + b2 # shape(6, 2)
 
-correct_class_score = scores[np.arange(N), y]
-correct_part = np.exp(correct_class_score)[:, np.newaxis]
-sum_part = np.sum(np.exp(scores), axis = 1)[:, np.newaxis]
+correct_class_score = scores[np.arange(N), y] # (6,)
+correct_part = np.exp(correct_class_score)[:, np.newaxis] # (6, 1)
+sum_part = np.sum(np.exp(scores), axis = 1)[:, np.newaxis] # (6, 1)
 
-# dW1 (4, 3)
-#------1
-# =============================================================================
-# m1 = X.dot(W2)
-# m1[h1<0]=0
-# print(m1)
-# =============================================================================
-#------2
+# dW1 (3, 4)
 m2 = np.zeros(h1.shape)
-m2[h1>0]=1
+m2[h1<0]=0
 m2=X.T.dot(m2).dot(W2)
 print(m2)
 

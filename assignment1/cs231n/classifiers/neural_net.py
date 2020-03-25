@@ -99,7 +99,8 @@ class TwoLayerNet(object):
     sum_part = np.sum(np.exp(scores), axis = 1)[:, np.newaxis]
     loss = np.sum(-np.log(correct_part/sum_part))
     loss /= N
-    loss += reg * np.sum(W * W)
+    loss += reg * np.sum(W1 * W1)
+    loss += reg * np.sum(W2 * W2)
     #############################################################################
     #                              END OF YOUR CODE                             #
     #############################################################################
