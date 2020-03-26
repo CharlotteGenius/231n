@@ -49,10 +49,7 @@ correct_part = np.exp(correct_class_score)[:, np.newaxis] # (6, 1)
 sum_part = np.sum(np.exp(scores), axis = 1)[:, np.newaxis] # (6, 1)
 
 # dW1 (3, 4)
-m2 = np.zeros(h1.shape)
-m2[h1<0]=0
-m2=X.T.dot(m2).dot(W2)
-print(m2)
+dW1 = np.maximum(W2, 0).dot(X)
 
 
 

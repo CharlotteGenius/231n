@@ -113,14 +113,10 @@ class TwoLayerNet(object):
     # grads['W1'] should store the gradient on W1, and be a matrix of same size #
     #############################################################################
     
-    dW1 = np.maximum(X, 0).dot(W2)
-    dW2 = np.maximum
-    m = np.zeros_like(scores)
-    m[np.arange(N), y] = -1
-    m += (1/sum_part)*np.exp(scores)
-    dW = (X.T).dot(m)
-    dW /= N
-    dW += 2*reg*W
+    dW1 = 
+    
+    dW1 /= N
+    dW1 += 2*reg*W
     #############################################################################
     #                              END OF YOUR CODE                             #
     #############################################################################
