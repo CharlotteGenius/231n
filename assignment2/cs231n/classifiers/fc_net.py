@@ -47,7 +47,11 @@ class TwoLayerNet(object):
         # and biases using the keys 'W1' and 'b1' and second layer                 #
         # weights and biases using the keys 'W2' and 'b2'.                         #
         ############################################################################
-        pass
+        self.params['W1'] = weight_scale * np.random.randn(input_dim, hidden_dim)
+        self.params['W2'] = weight_scale * np.random.randn(hidden_dim, num_classes)
+        self.params['b1'] = np.zeros(hidden_dim)
+        self.params['b2'] = np.zeros(num_classes)
+        
         ############################################################################
         #                             END OF YOUR CODE                             #
         ############################################################################
@@ -77,7 +81,23 @@ class TwoLayerNet(object):
         # TODO: Implement the forward pass for the two-layer net, computing the    #
         # class scores for X and storing them in the scores variable.              #
         ############################################################################
-        pass
+        w1 = self.params['W1']
+        w2 = self.params['W2']
+        b1 = self.params['b1']
+        b2 = self.params['b2']
+        
+        # affine - relu - affine - softmax
+        '''
+        The first two layers:
+        first_output, cache1 = affine_forward(X, w1, b1) # first ff layer output
+        relu_output, cache2 = relu_forward(cache1) # relu layer output
+        '''
+        # we can also use the function in layer_utils.py, which combine affine and relu
+        hid, cache1 = affine_relu_forward(X, w1, b1)
+        output, cache2 = affine_forward(hid, w2, b2) # first ff layer output
+        
+        scores = output
+        
         ############################################################################
         #                             END OF YOUR CODE                             #
         ############################################################################
@@ -97,7 +117,32 @@ class TwoLayerNet(object):
         # automated tests, make sure that your L2 regularization includes a factor #
         # of 0.5 to simplify the expression for the gradient.                      #
         ############################################################################
-        pass
+        
+        # affine - relu - affine - softmax
+        
+        reg = self.reg
+        
+        # softmax_loss(input, y)  only computes the loss and gradient of this layer
+        # so scores should be the input of this layer, and 
+        # dout: Gradient of the (un-reglarized) loss with respect to the input of the softmax layer
+        loss, dout = softmax_loss(scores, y)
+        loss += 0.5*reg*(np.sum(w1**2) + np.sum(w2**2))
+
+        dout, dw2, db2 = affine_backward(dout, cache2)
+        _, dw1, db1 = affine_relu_backward(dout, cache1)
+        
+        # since the gradients above are derivatives of un-regularized loss
+        # dw1 and dw2 need to add the derivative of the regularization term
+        dw1 += reg*w1
+        dw2 += reg*w2
+        
+        grads['W1'] = dw1
+        grads['W2'] = dw2
+        grads['b1'] = db1
+        grads['b2'] = db2
+        
+        
+        
         ############################################################################
         #                             END OF YOUR CODE                             #
         ############################################################################
@@ -112,7 +157,7 @@ class FullyConnectedNet(object):
     dropout and batch/layer normalization as options. For a network with L layers,
     the architecture will be
 
-    {affine - [batch/layer norm] - relu - [dropout]} x (L - 1) - affine - softmax
+    {affine - [batch/layer norm] - relu - [dropout]} * (L - 1) - affine - softmax
 
     where batch/layer normalization and dropout are optional, and the {...} block is
     repeated L - 1 times.
@@ -164,7 +209,29 @@ class FullyConnectedNet(object):
         # beta2, etc. Scale parameters should be initialized to ones and shift     #
         # parameters should be initialized to zeros.                               #
         ############################################################################
-        pass
+        
+        '''
+        The network:
+        input layer -- hidden layers(L-1) -- output layer
+        
+        W1 --> input_dim, hidden_dim[0]      --> first hidden layer
+        W2 --> hidden_dim[0], hidden_dim[1]  --> second hidden layer
+        W3 --> hidden_dim[1], hidden_dim[2]
+        ...
+        W(L-1) --> hidden_dim[L-3], hidden_dim[L-2] --> (L-1)th hidden layer
+        W(L) --> hidden_dim[L-2], num_classes --> last affine layer
+        '''
+        
+        dims = np.hstack((input_dim, hidden_dims, num_classes))
+        # dims[0]: input dimension
+        # dims[1:L]: (L-1) hidden layers dimensions     first hidden layer: W1 --> dims[1] 
+        # dims[L]: output layer dimension
+        
+        for i in range(self.num_layers):
+            self.params['W%d' % (i+1)] = weight_scale*np.random.randn(dims[i], dims[i+1])
+            self.params['b%d' % (i+1)] = np.zeros(dims[i+1])
+            
+        
         ############################################################################
         #                             END OF YOUR CODE                             #
         ############################################################################
@@ -223,7 +290,15 @@ class FullyConnectedNet(object):
         # self.bn_params[1] to the forward pass for the second batch normalization #
         # layer, etc.                                                              #
         ############################################################################
-        pass
+        
+        '''
+        layer.py contains a batchnorm_forward(x, gamma, beta, bn_param) function
+        '''
+        
+        
+        
+        
+        
         ############################################################################
         #                             END OF YOUR CODE                             #
         ############################################################################
